@@ -1,7 +1,7 @@
 /* Service worker Bormand Wealth — cache l'app pour un usage 100% hors-ligne.
    Aucune donnée utilisateur ne transite ici : seuls les fichiers de l'app (HTML/JS/CSS/icônes)
    sont mis en cache. Les données vivent dans le localStorage de l'appareil. */
-const CACHE_NAME = 'bormand-wealth-v1';
+const CACHE_NAME = 'bormand-wealth-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -30,7 +30,7 @@ self.addEventListener('fetch', (event) => {
       fetch(req)
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', copy));
+          if (res.ok) caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', copy)); // jamais une page d'erreur
           return res;
         })
         .catch(() => caches.match('./index.html'))
@@ -43,7 +43,7 @@ self.addEventListener('fetch', (event) => {
       if (cached) return cached;
       return fetch(req).then((res) => {
         const copy = res.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+        if (res.ok) caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)); // un 404 mis en cache bloquerait l'app
         return res;
       });
     })
