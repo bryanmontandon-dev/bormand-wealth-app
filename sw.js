@@ -1,7 +1,7 @@
 /* Service worker Bormand Wealth — cache l'app pour un usage 100% hors-ligne.
    Aucune donnée utilisateur ne transite ici : seuls les fichiers de l'app (HTML/JS/CSS/icônes)
    sont mis en cache. Les données vivent dans le localStorage de l'appareil. */
-const CACHE_NAME = 'bormand-wealth-v2';
+const CACHE_NAME = 'bormand-wealth-v3';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
